@@ -77,16 +77,12 @@ INSERT INTO produits (typeProduit_id,nom,prix,photo,dispo,stock) VALUES
 (6, 'Spear','100','spear-icon.png',9,65),
 (3, 'Yorshka\'s Chime','100','Yorshkas_Chime_icon.png',14,35);
 
+
 -- --------------------------------------------------------
 -- Structure de la table user
 -- valide permet de rendre actif le compte (exemple controle par email )
 
-
-# Structure de la table `utilisateur`
 DROP TABLE IF EXISTS users;
-
-# <http://silex.sensiolabs.org/doc/2.0/providers/security.html#defining-a-custom-user-provider>
-# Contenu de la table `utilisateur`
 
 CREATE TABLE users (
 
