@@ -6,7 +6,7 @@
 		{% endif %}
 
 		<table>
-			<caption>Recapitulatifs des produits (avec twig)</caption>
+			<caption>Recapitulatifs des produits</caption>
 			<thead>
 			<tr><th>nom</th><th>id</th><th>type</th><th>prix</th><th>nom photo</th><th>photo</th>
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
@@ -20,7 +20,7 @@
 				<tr>
 					<td>{{produit.nom}}</td><td>{{produit.id}}</td><td>{{produit.libelle}}</td><td>{{produit.prix}}</td><td>
 						{{produit.photo}}</td><td>
-						<img style="width:40px;height:40px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" >
+						<img style="width:50px;height:75px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" >
 					</td>
 					{% if   app.session.get('roles') is defined and  app.session.get('roles') == 'ROLE_ADMIN' %}
 						<td>
