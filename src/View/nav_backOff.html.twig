@@ -1,0 +1,39 @@
+<nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area"> 
+      <li class="name"> 
+        <h1> <a href="">TP web<span style="color:#ff0000;"> menu avec twig</span></a></h1>
+      </li> 
+      <li class="toggle-topbar menu-icon">
+        <a href="#"><span>Menu</span></a>
+      </li> 
+    </ul> 
+    <section class="top-bar-section">
+      <ul class="left">
+        <li class="divider"></li>
+        <li class="has-dropdown"><a href="#">commandes</a>
+          <ul class="dropdown">
+            <li><a href="#"> gestion des commandes </a></li>
+          </ul>
+        </li>
+        <li class="has-dropdown"><a href="#">produit</a>
+          <ul class="dropdown">
+            <li><a href="{{ path('produit.addProduit') }}"> créer un produit </a></li>
+            <li><a href="{{ path('produit.showProduits') }}">afficher/editer/supprimer les produits</a></li>
+          </ul>
+        </li>
+        <li class="has-dropdown"><a href="#">clients</a>
+          <ul class="dropdown">
+            <li><a href="#"> gestion des clients </a></li>
+          </ul>
+        </li>
+      </ul>
+        <ul class="right">
+            {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
+                <li class="name" style="color: #d58512">Connecté en tant que : {{ app.session.get('username') }}</li>
+                <li><a href="{{ path('user.logout')  }}">Se déconnecter</a></li>
+            {% else %}
+                <li><a href="{{ path('user.login')  }}">Se connecter</a></li>
+            {% endif %}
+        </ul>
+    </section> 
+</nav>

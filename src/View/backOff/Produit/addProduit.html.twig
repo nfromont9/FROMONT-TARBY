@@ -1,0 +1,45 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+<form method="post" action="{{ path('produit.validFormAddProduit') }}">
+    <div class="row">
+        <fieldset>
+            <legend>Creer un produit (twig)</legend>
+            <label>Nom :
+                <input name="nom"  type="text"  size="18" value="{{donnees.nom|default('')}}" />
+                {% if erreurs.nom is defined %}
+                    <small class="error">{{erreurs.nom}}</small>
+                {% endif %}
+            </label>
+            <label>Type :
+                <select name="typeProduit_id">
+                    {% if  donnees.typeProduit_id is not defined or donnees.typeProduit_id is empty   %}
+                        <option value="">Veuillez sélectionner un produit</option>
+                    {% endif %}
+                    {% for typeProduit in typeProduits %}
+                        <option value="{{ typeProduit.id }}"
+                                {% if donnees.typeProduit_id is defined and typeProduit.id == donnees.typeProduit_id %}selected{% endif %}>
+                            {{ typeProduit.libelle }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                {% if erreurs.typeProduit_id is defined %}
+                    <small class="error">{{erreurs.typeProduit_id}}</small>
+                {% endif %}
+            </label>
+            <label>Prix
+                <input name="prix"  type="text"  size="18" 	value="{{donnees.prix|default('')}}"/>
+                {% if erreurs.prix is defined %}
+                    <small class="error">{{erreurs.prix}}</small>
+                {% endif %}
+            </label>
+            <label>Photo
+                <input name="photo"  type="text"  size="18" value="{{donnees.photo|default('')}}"/>
+                {% if erreurs.photo is defined %}
+                    <small class="error">{{erreurs.photo}}</small>
+                {% endif %}
+            </label>
+            <input type="submit" name="creerProduit" value="créer" />
+        </fieldset>
+    </div>
+</form>
+{% endblock %}
