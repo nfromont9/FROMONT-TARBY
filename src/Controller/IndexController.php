@@ -22,7 +22,9 @@ class IndexController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $index = $app['controllers_factory'];
+
         $index->match("/", 'App\Controller\IndexController::index')->bind('accueil');
+
         return $index;
     }
 

@@ -84,7 +84,4 @@ class ProduitModel {
         ;
         return $queryBuilder->execute();
     }
-
-
-
 }
