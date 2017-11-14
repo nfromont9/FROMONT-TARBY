@@ -1,11 +1,8 @@
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area"> 
-      <li class="name"> 
-        <h1> <a href="">TP web<span style="color:#ff0000;"> menu avec twig</span></a></h1>
-      </li> 
-      <li class="toggle-topbar menu-icon">
-        <a href="#"><span>Menu</span></a>
-      </li> 
+      <li class="name">
+          <h1> <a href="{{ path('accueil') }}">Accueil</a></h1>
+      </li>
     </ul> 
     <section class="top-bar-section">
       <ul class="left">
@@ -15,15 +12,15 @@
             <li><a href="#"> gestion des commandes </a></li>
           </ul>
         </li>
-        <li class="has-dropdown"><a href="#">produit</a>
+        <li class="has-dropdown"><a href="{{ path('produit.showProduits') }}">produit</a>
           <ul class="dropdown">
-            <li><a href="{{ path('produit.addProduit') }}"> créer un produit </a></li>
-            <li><a href="{{ path('produit.showProduits') }}">afficher/editer/supprimer les produits</a></li>
+            <li><a href="{{ path('produit.addProduit') }}"> Créer un produit </a></li>
+            <li><a href="{{ path('produit.showProduits') }}">Afficher/editer/supprimer les produits</a></li>
           </ul>
         </li>
         <li class="has-dropdown"><a href="#">clients</a>
           <ul class="dropdown">
-            <li><a href="#"> gestion des clients </a></li>
+            <li><a href="#"> Gestion des clients </a></li>
           </ul>
         </li>
       </ul>
