@@ -147,7 +147,6 @@ class ProduitController implements ControllerProviderInterface
         else
             return $app->abort(404, 'error Pb id form edit');
     }
-
     public function connect(Application $app) {  //http://silex.sensiolabs.org/doc/providers.html#controller-providers
         $controllers = $app['controllers_factory'];
 
