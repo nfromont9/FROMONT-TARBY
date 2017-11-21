@@ -68,7 +68,7 @@ INSERT INTO produits (typeProduit_id,nom,prix,photo,dispo,stock) VALUES
 (2, 'Fume Ultra Greatsword','100','fume_ultra_greatsword.png',7,90),
 (1, 'Hollowslayer Greatsword','100','hollowslayer_greatsword-icon.png',4,10),
 (9, 'Irithyll Straight Sword','100','IrithyllStraightSword.png',1,30),
-(5, 'Longbow','100','Longbow',5,20),
+(5, 'Longbow','100','Longbow2.png',5,20),
 (9, 'Longsword','100','longsword-icon.png',23,60),
 (7, 'Mace','100','mace-icon.png',25,90),
 (4, 'Mail Breaker','100','mail_breaker-icon.png',8,70),
