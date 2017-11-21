@@ -142,12 +142,11 @@ class ProduitController implements ControllerProviderInterface
                 $this->ProduitModel->updateProduit($donnees);
                 return $app->redirect($app["url_generator"]->generate("produit.index"));
             }
-
         }
         else
             return $app->abort(404, 'error Pb id form edit');
-
     }
+
 
     public function connect(Application $app) {  //http://silex.sensiolabs.org/doc/providers.html#controller-providers
         $controllers = $app['controllers_factory'];

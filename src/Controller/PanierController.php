@@ -24,7 +24,7 @@ class PanierController implements ControllerProviderInterface
     public function showProduits(Application $app) {
         $this->panierModel = new PanierModel($app);
         $produits = $this->panierModel->getPanier();
-        return $app["twig"]->render('backOff/Panier/showPanier.html.twig',['data'=>$produits]);
+        return $app["twig"]->render('frontOff/Panier/showPanier.html.twig',['data'=>$produits]);
     }
 
     public function connect(Application $app) {
