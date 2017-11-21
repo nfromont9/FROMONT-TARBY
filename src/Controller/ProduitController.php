@@ -33,7 +33,6 @@ class ProduitController implements ControllerProviderInterface
     public function addProduit(Application $app) {
         $this->typeProduitModel = new TypeProduitModel($app);
         $typeProduits = $this->typeProduitModel->getAllTypeProduits();
-      //  dump($typeProduits);
         return $app["twig"]->render('backOff/Produit/addProduit.html.twig',['typeProduits'=>$typeProduits]);
     }
 

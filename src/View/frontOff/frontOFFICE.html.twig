@@ -1,26 +1,43 @@
 {% extends "layout.html.twig" %}
 
-
-
 {% block contenu %}
 
 	<h1> Projet 2 web : site de vente Espace client </h1>
 
 	<div class="row">
 		<div class="small-7 large-7 columns">
-			les produits + liens
+			<div>les produits + liens</div>
+            {% if data is defined %}
+            <table>
+                <caption>Produits :</caption>
+                <thead>
+                <tr><th>id</th><th>quantite</th><th>prix</th><th>date d'ajout</th><th>user</th><th>produit</th><th>commande</th>
+                    {% if   app.session.get('droit') is defined and app.session.get('droit') == 'DROITadmin' %}
+                        <th>opération</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for produit in data if data is not empty %}
+                    <tr>
+                        <td>{{produit.id}}</td><td>{{produit.quantite}}</td><td>{{produit.prix}}</td><td>{{produit.dateAjoutPanier}}</td>
+                        <td>{{produit.user_id}}</td><td>{{produit.produit_id}}</td><td>{{produit.commande_id}}</td>
+                        {% if   app.session.get('roles') is defined and  app.session.get('roles') == 'ROLE_ADMIN' %}
+                            <td>
+                                <a href="{{ path('produit.editProduit', {id: produit.id}) }}">modifier</a>
+                                <a href="{{ path('produit.deleteProduit', {id: produit.id}) }}">supprimer</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                <tbody>
+            </table>
+            {% endif %}
 		</div>
 		<div class="small-5 large-5 columns">
-			le panier +liens
+			<div>le panier + liens</div>
 		</div>
 
 	</div>
 
 {% endblock %}
-
-
-
-
-
-
-
