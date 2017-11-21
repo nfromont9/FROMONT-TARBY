@@ -29,6 +29,7 @@ class UserController implements ControllerProviderInterface {
 		$donnees['password']=$req->get('password');
 
 		$this->userModel = new UserModel($app);
+
 		$data=$this->userModel->verif_login_mdp_Utilisateur($donnees['login'],$donnees['password']);
 
 		if($data != NULL)

@@ -6,36 +6,55 @@
 
 	<div class="row">
 		<div class="small-7 large-7 columns">
-			<div>les produits + liens</div>
-            {% if data is defined %}
-            <table>
-                <caption>Produits :</caption>
-                <thead>
-                <tr><th>id</th><th>quantite</th><th>prix</th><th>date d'ajout</th><th>user</th><th>produit</th><th>commande</th>
-                    {% if   app.session.get('droit') is defined and app.session.get('droit') == 'DROITadmin' %}
-                        <th>opération</th>
-                    {% endif %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for produit in data if data is not empty %}
-                    <tr>
-                        <td>{{produit.id}}</td><td>{{produit.quantite}}</td><td>{{produit.prix}}</td><td>{{produit.dateAjoutPanier}}</td>
-                        <td>{{produit.user_id}}</td><td>{{produit.produit_id}}</td><td>{{produit.commande_id}}</td>
-                        {% if   app.session.get('roles') is defined and  app.session.get('roles') == 'ROLE_ADMIN' %}
-                            <td>
-                                <a href="{{ path('produit.editProduit', {id: produit.id}) }}">modifier</a>
-                                <a href="{{ path('produit.deleteProduit', {id: produit.id}) }}">supprimer</a>
-                            </td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-                <tbody>
-            </table>
+			<div>Liste des produits</div>
+            {% if produits is defined %}
+                <table>
+                    <caption>Produits</caption>
+                    <thead>
+                    <tr><th>nom</th><th>id</th><th>type</th><th>prix</th><th>nom photo</th><th>photo</th></tr>
+                    </thead>
+                    <tbody>
+                    {% for produit in produits if produits is not empty %}
+                        <tr>
+                            <td>{{produit.nom}}</td>
+                            <td>{{produit.id}}</td>
+                            <td>{{produit.libelle}}</td>
+                            <td>{{produit.prix}}</td>
+                            <td>{{produit.photo}}</td>
+                            <td><img style="width:40px;height:40px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" ></td>
+                        </tr>
+                    {% endfor %}
+                    <tbody>
+                </table>
+            {% else %}
+                <div>Pas de produits</div>
             {% endif %}
 		</div>
 		<div class="small-5 large-5 columns">
 			<div>le panier + liens</div>
+            {% if panier is defined %}
+            <table>
+                <caption>Panier :</caption>
+                <thead>
+                    <tr><th>id</th><th>quantite</th><th>prix</th><th>date d'ajout</th><th>user</th><th>produit</th><th>commande</th></tr>
+                </thead>
+                <tbody>
+                {% for produit in panier if panier is not empty %}
+                    <tr>
+                        <td>{{produit.id}}</td>
+                        <td>{{produit.quantite}}</td>
+                        <td>{{produit.prix}}</td>
+                        <td>{{produit.dateAjoutPanier}}</td>
+                        <td>{{produit.user_id}}</td>
+                        <td>{{produit.produit_id}}</td>
+                        <td>{{produit.commande_id}}</td>
+                    </tr>
+                {% endfor %}
+                <tbody>
+            </table>
+            {% else %}
+                <div>Le panier est vide</div>
+            {% endif %}
 		</div>
 	</div>
 

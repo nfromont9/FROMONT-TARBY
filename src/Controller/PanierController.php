@@ -17,6 +17,7 @@ class PanierController implements ControllerProviderInterface
 {
     private $panierModel;
 
+
     public function index(Application $app) {
         return $this->showProduits($app);
     }
