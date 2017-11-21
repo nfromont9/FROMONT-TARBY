@@ -26,8 +26,9 @@
                             <td>
                                 <form method="post" action="{{ path("panier.addProduit") }}">
                                     <label>Quantité :
-                                        <input name="qt"  type="text"  size="18" value="1" />
+                                        <input name="quantite"  type="text"  size="18" value="1" />
                                     </label>
+                                    <input name="id"  type="hidden" value="{{produit.id}}" />
                                     <input type="hidden" id="_method" name="_method" value="GET" />
                                     <input type="submit" name="Ajouter au Panier" value="Ajouter au Panier" />
                                 </form>
