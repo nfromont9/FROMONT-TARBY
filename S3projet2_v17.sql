@@ -57,7 +57,7 @@ INSERT INTO produits (typeProduit_id,nom,prix,photo,dispo,stock) VALUES
 (8, 'Battle Axe','100','battle_axe-icon.png',8,25),
 (2, 'Black Knight Greatsword','100','black_knight_greatsword.png',2,5),
 (3, 'Caitha\'s Chime','100','caithas_chime-icon.png',3,0),
-(1, 'Claymore','100','claymore-icon.png',420,15),
+(1, 'Claymore','100','claymore-icon.png',12,15),
 (5, 'Dragonrider Bow','100','dragonrider_bow-icon.png',4,5),
 (6, 'Dragonslayer Swordspear','100','dragonslayer_swordspear-icon.png',12,5),
 (7, 'Drang Hammers','100','drang_hammers-icon.png',24,25),
@@ -119,8 +119,6 @@ INSERT INTO users (id,username,password,motdepasse,email,roles) VALUES
 (4, 'client', '$2y$13$bhuMlUWdfc5mAhVumuKUG.etahlJ399DEwuQPhbdXjiCdKIeX2nii', 'client', 'client@gmail.com','ROLE_CLIENT'),
 (5, 'client2', '$2y$13$SYEM3Tk/5G.C85pIAm0cSOd8BFrFTEnLHBSWsW96Q3k9gCdFXRmvm','client2', 'client2@gmail.com','ROLE_CLIENT');
 
-
-
 -- --------------------------------------------------------
 -- Structure de la table commandes
 CREATE TABLE IF NOT EXISTS commandes (
@@ -133,8 +131,6 @@ CREATE TABLE IF NOT EXISTS commandes (
   CONSTRAINT fk_commandes_users FOREIGN KEY (user_id) REFERENCES users (id),
   CONSTRAINT fk_commandes_etats FOREIGN KEY (etat_id) REFERENCES etats (id)
 ) DEFAULT CHARSET=utf8 ;
-
-
 
 -- --------------------------------------------------------
 -- Structure de la table paniers
