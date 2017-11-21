@@ -25,8 +25,8 @@
                             <td><img style="width:40px;height:40px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" ></td>
                             <td>
                                 <form method="post" action="{{ path("panier.addProduit") }}">
-                                    <label>Qt :
-                                        <input name="qt"  type="text"  size="18" value="" />
+                                    <label>Quantité :
+                                        <input name="qt"  type="text"  size="18" value="1" />
                                     </label>
                                     <input type="hidden" id="_method" name="_method" value="GET" />
                                     <input type="submit" name="Ajouter au Panier" value="Ajouter au Panier" />
