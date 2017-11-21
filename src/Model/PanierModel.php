@@ -26,6 +26,7 @@ class PanierModel {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder->insert('panier')
             ->values([
+                'id' => '?',
                 'quantite' => '?',
                 'prix' => '?',
                 'dateAjoutPanier' => '?',
@@ -33,12 +34,14 @@ class PanierModel {
                 'produit_id' => '?',
                 'commande_id' => '?'
             ])
-            ->setParameter(0, $produit['quantite'])
-            ->setParameter(1, $produit['prix'])
-            ->setParameter(2, $produit['dateAjoutPanier'])
-            ->setParameter(3, $produit['user_id'])
-            ->setParameter(4, $produit['produit_id'])
-            ->setParameter(5, $produit['commande_id']);
+
+            ->setParameter(0, $produit['id'])
+            ->setParameter(1, $produit['quantite'])
+            ->setParameter(2, $produit['prix'])
+            ->setParameter(3, $produit['dateAjoutPanier'])
+            ->setParameter(4, $produit['user_id'])
+            ->setParameter(5, $produit['produit_id'])
+            ->setParameter(6, $produit['commande_id']);
         return $queryBuilder->execute();
     }
 

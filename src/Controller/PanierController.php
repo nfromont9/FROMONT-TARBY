@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Model\ProduitModel;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 
@@ -16,6 +17,7 @@ use Symfony\Component\Security;
 class PanierController implements ControllerProviderInterface
 {
     private $panierModel;
+    private $produitModel;
 
 
     public function index(Application $app) {
@@ -28,12 +30,35 @@ class PanierController implements ControllerProviderInterface
         return $app["twig"]->render('frontOff/Panier/showPanier.html.twig',['data'=>$produits]);
     }
 
-    public function addProduit(Application $app, $produit) {
-        $this->panierModel = new PanierModel($app);
-        $this->panierModel->insertProduit($produit);
+    public function addProduit(Application $app) {
+        if (isset($_POST['id']) && isset($_POST['quantite'])) {
+            $id = htmlspecialchars($_POST['id']);
+            $quantite = htmlspecialchars($_POST['quantite']);
 
-        $produits = $this->panierModel->getPanier();
-        return $app["twig"]->render('frontOff/Panier/showPanier.html.twig',['data'=>$produits]);
+            $this->produitModel = new ProduitModel($app);
+
+            $produit = $this->produitModel->getProduit($id);
+            $produit['quantite'] = $quantite;
+
+            $produits = $this->produitModel->getAllProduits();
+
+            if (!is_int($quantite))$erreurs['quantite']='Veuillez saisir un chiffre correct';
+
+            if(!empty($erreurs))
+            {
+                // return $app["twig"]->render('frontOff/frontOFFICE.html.twig',['produits'=>$produits,'erreurs'=>$erreurs]);
+                return $app->redirect($app["url_generator"]->generate("accueil", ['produits'=>$produits,'erreurs'=>$erreurs]));
+            }
+            else
+            {
+                $this->panierModel = new PanierModel($app);
+                $this->panierModel->insertProduit($produit);
+                return $app->redirect($app["url_generator"]->generate("accueil"));
+            }
+
+        }
+        else
+            return $app->abort(404, 'error Pb data form Add');
     }
 
     public function connect(Application $app) {
