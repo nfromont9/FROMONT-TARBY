@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 use Silex\Application;
-use Silex\Api\ControllerProviderInterface;   // modif version 2.0
+use Silex\Api\ControllerProviderInterface;
 use App\Model\PanierModel;
 use App\Model\ProduitModel;
 class IndexController implements ControllerProviderInterface

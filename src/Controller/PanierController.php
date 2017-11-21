@@ -28,11 +28,14 @@ class PanierController implements ControllerProviderInterface
         return $app["twig"]->render('frontOff/Panier/showPanier.html.twig',['data'=>$produits]);
     }
 
+
+
     public function connect(Application $app) {
         $controllers = $app['controllers_factory'];
 
         $controllers->get('/', 'App\Controller\PanierController::index')->bind('panier.index');
         $controllers->get('/showP', 'App\Controller\PanierController::showProduits')->bind('panier.showProduits');
+        $controllers->get('/addP', 'App\Controller\PanierController::addProduit')->bind('panier.addProduit');
 
         return $controllers;
     }
