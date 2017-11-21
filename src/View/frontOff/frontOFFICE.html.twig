@@ -4,14 +4,15 @@
 
 	<h1> Projet 2 web : site de vente Espace client </h1>
 
-	<div class="row">
-		<div class="small-7 large-7 columns">
+    <div style="width: 100%;overflow: auto;">
+	<div class="row" style="float: left;width: 50%;">
+		<div class="small-7 large-7 columns" >
 			<div>Liste des produits</div>
             {% if produits is defined %}
                 <table>
                     <caption>Produits</caption>
                     <thead>
-                    <tr><th>nom</th><th>id</th><th>type</th><th>prix</th><th>nom photo</th><th>photo</th></tr>
+                    <tr><th>nom</th><th>id</th><th>type</th><th>prix</th><th>nom photo</th><th>photo</th><th>achat</th></tr>
                     </thead>
                     <tbody>
                     {% for produit in produits if produits is not empty %}
@@ -22,6 +23,7 @@
                             <td>{{produit.prix}}</td>
                             <td>{{produit.photo}}</td>
                             <td><img style="width:40px;height:40px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" ></td>
+                            <td><a href="{{ path('panier.addProduit') }}">Ajouter au panier</a></td>
                         </tr>
                     {% endfor %}
                     <tbody>
@@ -30,6 +32,8 @@
                 <div>Pas de produits</div>
             {% endif %}
 		</div>
+    </div>
+    <div class="row" style="float: right;width: 50%;">
 		<div class="small-5 large-5 columns">
 			<div>le panier + liens</div>
             {% if panier is defined %}
@@ -57,5 +61,7 @@
             {% endif %}
 		</div>
 	</div>
+    </div>
+
 
 {% endblock %}

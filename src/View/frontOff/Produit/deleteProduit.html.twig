@@ -1,0 +1,16 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+<form method="post" action="{{ path('produit.validFormDeleteProduit') }}">
+<div class="row">
+	
+	<fieldset>
+		<legend>Confirmer la suppression du produit suivant : (avec twig)</legend>
+		<input name="id"  type="hidden" value="{{donnees.id}}" />
+		<label>Nom : <h5>{{donnees.nom}}</h5> </label>
+		<input type="hidden" id="_method" name="_method" value="delete" />
+
+		<input type="submit" name="supprimerProduit" value="Supprimer" />
+	</fieldset>	
+</div>
+</form>
+{% endblock %}
