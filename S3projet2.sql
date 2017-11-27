@@ -55,7 +55,7 @@ INSERT INTO produits (typeProduit_id,nom,prix,photo,dispo,stock) VALUES
 (8, 'Battle Axe','100','battle_axe-icon.png',8,25),
 (2, 'Black Knight Greatsword','100','black_knight_greatsword.png',2,5),
 (3, 'Caitha\'s Chime','100','caithas_chime-icon.png',3,0),
-(1, 'Claymore','100','claymore-icon.png',420,15),
+(1, 'Claymore','100','claymore-icon.png',20,15),
 (5, 'Dragonrider Bow','100','dragonrider_bow-icon.png',4,5),
 (6, 'Dragonslayer Swordspear','100','dragonslayer_swordspear-icon.png',12,5),
 (7, 'Drang Hammers','100','drang_hammers-icon.png',24,25),

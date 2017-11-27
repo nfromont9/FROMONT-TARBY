@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
+use Symfony\Component\Validator\Constraints\Date;
 
 class PanierModel {
 
@@ -23,13 +24,14 @@ class PanierModel {
     }
 
     public function insertProduit($produit) {
+        var_dump($produit);
+        die();
         $queryBuilder = new QueryBuilder($this->db);
-        $queryBuilder->insert('panier')
+        $queryBuilder->insert('paniers')
             ->values([
                 'id' => '?',
                 'quantite' => '?',
                 'prix' => '?',
-                'dateAjoutPanier' => '?',
                 'user_id' => '?',
                 'produit_id' => '?',
                 'commande_id' => '?'
@@ -38,10 +40,9 @@ class PanierModel {
             ->setParameter(0, $produit['id'])
             ->setParameter(1, $produit['quantite'])
             ->setParameter(2, $produit['prix'])
-            ->setParameter(3, $produit['dateAjoutPanier'])
-            ->setParameter(4, $produit['user_id'])
-            ->setParameter(5, $produit['produit_id'])
-            ->setParameter(6, $produit['commande_id']);
+            ->setParameter(3, $produit['user_id'])
+            ->setParameter(4, $produit['produit_id'])
+            ->setParameter(5, $produit['commande_id']);
         return $queryBuilder->execute();
     }
 

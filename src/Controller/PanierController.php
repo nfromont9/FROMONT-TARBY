@@ -42,7 +42,7 @@ class PanierController implements ControllerProviderInterface
 
             $produits = $this->produitModel->getAllProduits();
 
-            if (!is_int($quantite))$erreurs['quantite']='Veuillez saisir un chiffre correct';
+            if (!preg_match("/^[0-9]{1,}$/", $produit['quantite'])) $erreurs['quantite']='Veuillez saisir un chiffre correct';
 
             if(!empty($erreurs))
             {
@@ -51,6 +51,10 @@ class PanierController implements ControllerProviderInterface
             }
             else
             {
+                $produit['user_id'] = $app['session']->get('user_id');
+                $produit['produit_id'] = $id;
+                $produit['commande_id'] = 1;
+
                 $this->panierModel = new PanierModel($app);
                 $this->panierModel->insertProduit($produit);
                 return $app->redirect($app["url_generator"]->generate("accueil"));
