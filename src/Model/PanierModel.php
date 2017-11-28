@@ -49,7 +49,7 @@ class PanierModel {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->select('quantite', 'prix', 'dateAjoutPanier', 'user_id', 'produit_id', 'commande_id')
-            ->from('panier')
+            ->from('paniers')
             ->where('id= :id')
             ->setParameter('id', $id);
         return $queryBuilder->execute()->fetch();
@@ -58,9 +58,18 @@ class PanierModel {
     public function deleteProduit($id) {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->delete('panier')
+            ->delete('paniers')
             ->where('id = :id')
             ->setParameter('id',(int)$id);
+        return $queryBuilder->execute();
+    }
+
+    public function updateProduit($id, $quantite) {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->update('paniers')
+            ->set('quantite', $quantite)
+            ->where('produit_id = :id')
+            ->setParameter('id',$id);
         return $queryBuilder->execute();
     }
 

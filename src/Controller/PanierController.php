@@ -69,6 +69,33 @@ class PanierController implements ControllerProviderInterface
             return $app->abort(404, 'error Pb data form Add');
     }
 
+    public function deleteProduit(Application $app) {
+        if (isset($_POST['id']) && isset($_POST['quantite'])) {
+            $id = htmlspecialchars($_POST['id']);
+            $quantite = htmlspecialchars($_POST['quantite']);
+
+            $this->produitModel = new ProduitModel($app);
+            $this->panierModel = new PanierModel($app);
+
+            $produits = $this->produitModel->getAllProduits();
+            $produit = $this->panierModel->getProduit($id);
+
+            if (!preg_match("/^[0-9]{1,}$/", $quantite)) $erreurs['quantite']='Veuillez saisir un chiffre correct';
+
+            if (!empty($erreurs)) {
+                return $app->redirect($app["url_generator"]->generate("accueil", ['erreurs'=>$erreurs]));
+            } else if ($produit['quantite'] <= $quantite) {
+                $this->panierModel->deleteProduit($id);
+                return $app->redirect($app["url_generator"]->generate("accueil"));
+            } else {
+                $this->panierModel->updateProduit($id, $quantite);
+                return $app->redirect($app["url_generator"]->generate("accueil"));
+            }
+        }
+        else
+            return $app->abort(404, 'error Pb data form delete');
+    }
+
     public function connect(Application $app) {
         $controllers = $app['controllers_factory'];
 
@@ -76,7 +103,6 @@ class PanierController implements ControllerProviderInterface
         $controllers->get('/showP', 'App\Controller\PanierController::showProduits')->bind('panier.showProduits');
         $controllers->get('/addP', 'App\Controller\PanierController::addProduit')->bind('panier.addProduit');
         $controllers->get('/delP', 'App\Controller\PanierController::deleteProduit')->bind('panier.deleteProduit');
-
 
         return $controllers;
     }
