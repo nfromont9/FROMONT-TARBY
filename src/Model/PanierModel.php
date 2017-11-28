@@ -17,9 +17,10 @@ class PanierModel {
     public function getPanier() {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('p.id', 'p.quantite', 'p.prix', 'p.prix', 'p.dateAjoutPanier', 'p.user_id', 'p.produit_id', 'p.commande_id')
-            ->from('paniers', 'p')
-            ->addOrderBy('p.id', 'ASC');
+            ->select('pa.id', 'pr.nom', 'pa.quantite', 'pa.prix', 'pa.dateAjoutPanier', 'pr.photo')
+            ->from('paniers', 'pa')
+            ->innerJoin('pa','produits', 'pr', 'pa.produit_id=pr.id')
+            ->addOrderBy('pa.id', 'ASC');
         return $queryBuilder->execute()->fetchAll();
     }
 
