@@ -53,7 +53,7 @@ class PanierController implements ControllerProviderInterface
             {
                 $produit['user_id'] = $app['session']->get('user_id');
                 $produit['produit_id'] = $id;
-                $produit['commande_id'] = 1;
+                $produit['commande_id'] = null;
 
                 $this->panierModel = new PanierModel($app);
                 $this->panierModel->insertProduit($produit);
