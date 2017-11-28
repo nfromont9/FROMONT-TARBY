@@ -8,6 +8,10 @@
 	<div class="row" style="float: left;width: 50%;">
 		<div class="small-7 large-7 columns" >
 			<div>Liste des produits</div>
+            {% if erreurs.quantiteAdd is defined %}
+                <br>
+                <small class="error">{{erreurs.quantiteAdd}}</small>
+            {% endif %}
             {% if produits is defined %}
                 <table>
                     <caption>Produits</caption>
@@ -27,9 +31,6 @@
                                 <form method="post" action="{{ path("panier.addProduit") }}">
                                     <label>Quantité :
                                         <input name="quantite"  type="text"  size="18" value="1" />
-                                        {% if erreurs.quantiteAdd is defined %}
-                                            <small class="error">{{erreurs.quantiteAdd}}</small>
-                                        {% endif %}
                                     </label>
 
                                     <input name="id"  type="hidden" value="{{produit.id}}" />
@@ -49,6 +50,10 @@
     <div class="row" style="float: right;width: 50%;">
 		<div class="small-5 large-5 columns">
 			<div>le panier + liens</div>
+            {% if erreurs.quantiteDel is defined %}
+                <br>
+                <small class="error">{{erreurs.quantiteDel}}</small>
+            {% endif %}
             {% if panier is defined %}
             <table>
                 <caption>Panier :</caption>
