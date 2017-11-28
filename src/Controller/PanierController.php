@@ -40,16 +40,11 @@ class PanierController implements ControllerProviderInterface
             $produit = $this->produitModel->getProduit($id);
             $produit['quantite'] = $quantite;
 
-            $produits = $this->produitModel->getAllProduits();
+            if (!preg_match("/^[1-9][0-9]{0,}$/", $produit['quantite'])) $erreurs['quantiteAdd']='Veuillez saisir un chiffre correct';
 
-            if (!preg_match("/^[0-9]{1,}$/", $produit['quantite'])) $erreurs['quantiteAdd']='Veuillez saisir un chiffre correct';
-
-            if(!empty($erreurs))
-            {
-                // return $app["twig"]->render('frontOff/frontOFFICE.html.twig',['produits'=>$produits,'erreurs'=>$erreurs]);
-                return $app->redirect($app["url_generator"]->generate("accueil", ['produits'=>$produits,'erreurs'=>$erreurs]));
-            }
-            else {
+            if(!empty($erreurs)) {
+                return $this->erreurForm($app, $erreurs);
+            } else {
                 $this->panierModel = new PanierModel($app);
                 $produit['user_id'] = $app['session']->get('user_id');
                 $produit['produit_id'] = $id;
@@ -74,26 +69,34 @@ class PanierController implements ControllerProviderInterface
             $id = htmlspecialchars($_POST['id']);
             $quantite = htmlspecialchars($_POST['quantite']);
 
-            $this->produitModel = new ProduitModel($app);
             $this->panierModel = new PanierModel($app);
-
-            $produits = $this->produitModel->getAllProduits();
             $produit = $this->panierModel->getProduit($id);
 
-            if (!preg_match("/^[0-9]{1,}$/", $quantite)) $erreurs['quantite']='Veuillez saisir un chiffre correct';
+            if (!preg_match("/^[1-9][0-9]{0,}$/", $quantite)) $erreurs['quantite']='Veuillez saisir un chiffre correct';
 
             if (!empty($erreurs)) {
-                return $app->redirect($app["url_generator"]->generate("accueil", ['erreurs'=>$erreurs]));
+                return $this->erreurForm($app, $erreurs);
             } else if ($produit['quantite'] <= $quantite) {
                 $this->panierModel->deleteProduit($id);
                 return $app->redirect($app["url_generator"]->generate("accueil"));
             } else {
+                $quantite = $produit['quantite']-$quantite;
                 $this->panierModel->updateProduit($id, $quantite);
                 return $app->redirect($app["url_generator"]->generate("accueil"));
             }
         }
         else
             return $app->abort(404, 'error Pb data form delete');
+    }
+
+    public function erreurForm(Application $app, $erreurs) {
+        $this->produitModel = new ProduitModel($app);
+        $this->panierModel = new PanierModel($app);
+        $produits = $this->produitModel->getAllProduits();
+        $panier = $this->panierModel->getPanier();
+
+        return $app["twig"]->render('frontOff/frontOFFICE.html.twig',
+            ['panier'=>$panier ,'produits'=>$produits,'erreurs'=>$erreurs]);
     }
 
     public function connect(Application $app) {
