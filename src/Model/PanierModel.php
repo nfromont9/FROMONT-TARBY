@@ -64,11 +64,10 @@ class PanierModel {
         return $queryBuilder->execute();
     }
 
-    public function insertExistingProduit($id, $n){
+    public function insertExistingProduit($id, $n, $quantite){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder->update('paniers')
-            ->set('quantite', $n +1 )
-            ->set('prix', 'quantite * prix')
+            ->set('quantite', $n+$quantite)
             ->where('produit_id = :id')
             ->setParameter('id',$id);
         return $queryBuilder->execute();
@@ -77,7 +76,7 @@ class PanierModel {
 
     public function countProduit($id){
         $queryBuilder = new QueryBuilder($this->db);
-        $queryBuilder->select('COUNT(*) as n')
+        $queryBuilder->select('quantite as n')
             ->from('paniers')
             ->where('produit_id = :id')
             ->setParameter('id',$id);

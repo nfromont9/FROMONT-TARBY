@@ -59,7 +59,7 @@ class PanierController implements ControllerProviderInterface
                     $this->panierModel->insertProduit($produit);
                 }
                 else {
-                    $this->panierModel->insertExistingProduit($id, $n['n']);
+                    $this->panierModel->insertExistingProduit($id, $n['n'], $quantite);
                 }
                 return $app->redirect($app["url_generator"]->generate("accueil"));
             }
