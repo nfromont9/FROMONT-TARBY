@@ -49,14 +49,18 @@ class PanierController implements ControllerProviderInterface
                 // return $app["twig"]->render('frontOff/frontOFFICE.html.twig',['produits'=>$produits,'erreurs'=>$erreurs]);
                 return $app->redirect($app["url_generator"]->generate("accueil", ['produits'=>$produits,'erreurs'=>$erreurs]));
             }
-            else
-            {
+            else {
+                $this->panierModel = new PanierModel($app);
                 $produit['user_id'] = $app['session']->get('user_id');
                 $produit['produit_id'] = $id;
                 $produit['commande_id'] = null;
-
-                $this->panierModel = new PanierModel($app);
-                $this->panierModel->insertProduit($produit);
+                $n = $this->panierModel->countProduit($id);
+                if($n['n'] == 0){
+                    $this->panierModel->insertProduit($produit);
+                }
+                else {
+                    $this->panierModel->insertExistingProduit($id, $n['n']);
+                }
                 return $app->redirect($app["url_generator"]->generate("accueil"));
             }
 
