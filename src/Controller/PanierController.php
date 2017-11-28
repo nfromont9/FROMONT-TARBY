@@ -72,7 +72,7 @@ class PanierController implements ControllerProviderInterface
             $this->panierModel = new PanierModel($app);
             $produit = $this->panierModel->getProduit($id);
 
-            if (!preg_match("/^[1-9][0-9]{0,}$/", $quantite)) $erreurs['quantite']='Veuillez saisir un chiffre correct';
+            if (!preg_match("/^[1-9][0-9]{0,}$/", $quantite)) $erreurs['quantiteDel']='Veuillez saisir un chiffre correct';
 
             if (!empty($erreurs)) {
                 return $this->erreurForm($app, $erreurs);
