@@ -75,6 +75,8 @@ class PanierController implements ControllerProviderInterface
         $controllers->get('/', 'App\Controller\PanierController::index')->bind('panier.index');
         $controllers->get('/showP', 'App\Controller\PanierController::showProduits')->bind('panier.showProduits');
         $controllers->get('/addP', 'App\Controller\PanierController::addProduit')->bind('panier.addProduit');
+        $controllers->get('/delP', 'App\Controller\PanierController::deleteProduit')->bind('panier.deleteProduit');
+
 
         return $controllers;
     }

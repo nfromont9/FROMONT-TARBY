@@ -119,6 +119,8 @@ INSERT INTO users (id,username,password,motdepasse,email,roles) VALUES
 (4, 'client', '$2y$13$bhuMlUWdfc5mAhVumuKUG.etahlJ399DEwuQPhbdXjiCdKIeX2nii', 'client', 'client@gmail.com','ROLE_CLIENT'),
 (5, 'client2', '$2y$13$SYEM3Tk/5G.C85pIAm0cSOd8BFrFTEnLHBSWsW96Q3k9gCdFXRmvm','client2', 'client2@gmail.com','ROLE_CLIENT');
 
+
+
 -- --------------------------------------------------------
 -- Structure de la table commandes
 CREATE TABLE IF NOT EXISTS commandes (
@@ -131,6 +133,8 @@ CREATE TABLE IF NOT EXISTS commandes (
   CONSTRAINT fk_commandes_users FOREIGN KEY (user_id) REFERENCES users (id),
   CONSTRAINT fk_commandes_etats FOREIGN KEY (etat_id) REFERENCES etats (id)
 ) DEFAULT CHARSET=utf8 ;
+
+
 
 -- --------------------------------------------------------
 -- Structure de la table paniers
