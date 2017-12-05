@@ -102,6 +102,10 @@ class PanierController implements ControllerProviderInterface
             ['panier'=>$panier ,'produits'=>$produits,'erreurs'=>$erreurs]);
     }
 
+    public function validPanier(Application $app) {
+        return $app->redirect($app["url_generator"]->generate("accueil"));
+    }
+
     public function connect(Application $app) {
         $controllers = $app['controllers_factory'];
 
@@ -109,6 +113,7 @@ class PanierController implements ControllerProviderInterface
         $controllers->get('/showP', 'App\Controller\PanierController::showProduits')->bind('panier.showProduits');
         $controllers->get('/addP', 'App\Controller\PanierController::addProduit')->bind('panier.addProduit');
         $controllers->get('/delP', 'App\Controller\PanierController::deleteProduit')->bind('panier.deleteProduit');
+        $controllers->post('/valP', 'App\Controller\PanierController::validPanier')->bind('panier.valider');
 
         return $controllers;
     }
