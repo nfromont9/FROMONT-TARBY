@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Model\CommandeModel;
 use App\Model\ProduitModel;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
@@ -18,6 +19,7 @@ class PanierController implements ControllerProviderInterface
 {
     private $panierModel;
     private $produitModel;
+    private $commandeModel;
 
 
     public function index(Application $app) {
@@ -102,6 +104,18 @@ class PanierController implements ControllerProviderInterface
             ['panier'=>$panier ,'produits'=>$produits,'erreurs'=>$erreurs]);
     }
 
+    public function validPanier(Application $app) {
+        $this->commandeModel = new CommandeModel($app);
+        $this->panierModel = new PanierModel($app);
+
+        $uid = $app['session']->get('user_id');
+        //Le prix correct
+        $prixTotal = $this->panierModel->getPrixPanier();
+
+        $this->commandeModel->createCommande($uid,$prixTotal);
+        return $app->redirect($app["url_generator"]->generate("accueil"));
+    }
+
     public function connect(Application $app) {
         $controllers = $app['controllers_factory'];
 
@@ -109,6 +123,7 @@ class PanierController implements ControllerProviderInterface
         $controllers->get('/showP', 'App\Controller\PanierController::showProduits')->bind('panier.showProduits');
         $controllers->get('/addP', 'App\Controller\PanierController::addProduit')->bind('panier.addProduit');
         $controllers->get('/delP', 'App\Controller\PanierController::deleteProduit')->bind('panier.deleteProduit');
+        $controllers->post('/valP', 'App\Controller\PanierController::validPanier')->bind('panier.valider');
 
         return $controllers;
     }

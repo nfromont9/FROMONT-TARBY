@@ -109,6 +109,11 @@
                         </td>
                     </tr>
                 {% endfor %}
+                <td>
+                    <form method="post" action="{{ path("panier.valider") }}">
+                        <input type="submit" name="Valider le Panier" value="Valider le Panier" />
+                    </form>
+                </td>
                 <tbody>
             </table>
             {% else %}
