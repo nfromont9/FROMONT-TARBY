@@ -103,6 +103,7 @@ class PanierController implements ControllerProviderInterface
     }
 
     public function validPanier(Application $app) {
+
         return $app->redirect($app["url_generator"]->generate("accueil"));
     }
 
