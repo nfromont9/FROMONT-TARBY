@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+use App\Model\TypeProduitModel;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use App\Model\PanierModel;
@@ -8,15 +9,23 @@ class IndexController implements ControllerProviderInterface
 {
     private $produitModel;
     private $panierModel;
+    private $typeProduitModel;
+
     public function index(Application $app)
     {
         $this->panierModel = new PanierModel($app);
         $this->produitModel= new ProduitModel($app);
+        $this->typeProduitModel = new TypeProduitModel($app);
+
+        // $app['session']->get('category')=='tous';
+
         $produits = $this->produitModel->getAllProduits();
         $panier = $this->panierModel->getPanier();
+        $typeProduits = $this->typeProduitModel->getAllTypeProduits();
+
         if ($app['session']->get('roles') == 'ROLE_CLIENT')
-            return $app["twig"]->render("frontOff/frontOFFICE.html.twig", ['produits'=>$produits, 'panier'=>$panier]);
-        // remplacer par une redirection :  return $app->redirect($app["url_generator"]->generate("Panier.index"));
+             return $app["twig"]->render("frontOff/frontOFFICE.html.twig", ['produits'=>$produits, 'panier'=>$panier, 'type_produits'=>$typeProduits]);
+            //return $app->redirect($app["url_generator"]->generate("Panier.index", ['produits'=>$produits, 'panier'=>$panier, 'type_produits'=>$typeProduits]));
         if ($app['session']->get('roles') == 'ROLE_ADMIN')
             return $app["twig"]->render("backOff/backOFFICE.html.twig");
         // remplacer par une redirection

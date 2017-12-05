@@ -21,7 +21,6 @@ class ProduitModel {
             ->innerJoin('p', 'typeProduits', 't', 'p.typeProduit_id=t.id')
             ->addOrderBy('p.nom', 'ASC');
         return $queryBuilder->execute()->fetchAll();
-
     }
 
     public function insertProduit($donnees) {
@@ -78,5 +77,17 @@ class ProduitModel {
             ->setParameter('id',(int)$id)
         ;
         return $queryBuilder->execute();
+    }
+
+    public function getProduitsByCategory($id) {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('p.id', 't.libelle', 'p.nom', 'p.prix', 'p.photo', 'p.dispo', 'p.stock')
+            ->from('produits', 'p')
+            ->innerJoin('p', 'typeProduits', 't', 'p.typeProduit_id=t.id')
+            ->where('t.id = :id')
+            ->addOrderBy('p.nom', 'ASC')
+            ->setParameter('id', $id);
+        return $queryBuilder->execute()->fetchAll();
     }
 }

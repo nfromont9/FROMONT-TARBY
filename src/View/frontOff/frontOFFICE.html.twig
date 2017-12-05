@@ -16,6 +16,28 @@
                 <br>
                 <small class="error">{{erreurs.tooManyItems}}</small>
             {% endif %}
+
+            {% if type_produits is defined %}
+                <form method="post" action="{{ path("produit.validFormSelectCategory") }}">
+                    <label for="pays">Dans quel pays habitez-vous ?</label><br />
+                    <select name="id">
+                        <option value="-1">Toutes les catégories</option>
+                        {% for type_produit in type_produits if type_produits is not empty %}
+                            <option value="{{ type_produit.id }}"
+                            {% if selected is defined %}
+                                {% if selected==type_produit.id  %}
+                                    selected
+                                {% endif %}
+                            {% endif %}
+                            >{{ type_produit.libelle }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" id="_method" name="_method" value="GET" />
+                    <input type="submit" name="selectByCat" value="Sélectionner" />
+                </form>
+
+            {% endif %}
+
             {% if produits is defined %}
                 <table>
                     <caption>Produits</caption>

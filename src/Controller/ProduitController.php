@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Model\PanierModel;
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 
@@ -17,6 +18,7 @@ use Symfony\Component\Security;
 class ProduitController implements ControllerProviderInterface
 {
     private $produitModel;
+    private $panierModel;
     private $typeProduitModel;
 
 
@@ -25,13 +27,38 @@ class ProduitController implements ControllerProviderInterface
     }
 
     public function showProduits(Application $app) {
-        $this->produitModel = new ProduitModel($app);
+        $this->panierModel = new PanierModel($app);
+        $this->produitModel= new ProduitModel($app);
+        $this->typeProduitModel = new TypeProduitModel($app);
+
         $produits = $this->produitModel->getAllProduits();
-        return $app["twig"]->render('backOff/Produit/showProduits.html.twig',['data'=>$produits]);
+        $panier = $this->panierModel->getPanier();
+        $typeProduits = $this->typeProduitModel->getAllTypeProduits();
+
+        return $app["twig"]->render("frontOff/frontOFFICE.html.twig", ['produits'=>$produits, 'panier'=>$panier, 'type_produits'=>$typeProduits]);
+    }
+
+    public function validFormSelectCategory(Application $app) {
+        $this->panierModel = new PanierModel($app);
+        $this->produitModel= new ProduitModel($app);
+        $this->typeProduitModel = new TypeProduitModel($app);
+
+        $panier = $this->panierModel->getPanier();
+        $typeProduits = $this->typeProduitModel->getAllTypeProduits();
+
+        if (isset($_POST['id'])) $id = htmlspecialchars($_POST['id']);
+
+        if ($id==-1) $produits = $this->produitModel->getAllProduits();
+        else $produits = $this->produitModel->getProduitsByCategory($id);
+
+        return $app["twig"]->render("frontOff/frontOFFICE.html.twig", ['produits'=>$produits, 'panier'=>$panier, 'type_produits'=>$typeProduits, 'selected'=>$id]);
     }
 
     public function addProduit(Application $app) {
+        $this->panierModel = new PanierModel($app);
+        $this->produitModel= new ProduitModel($app);
         $this->typeProduitModel = new TypeProduitModel($app);
+
         $typeProduits = $this->typeProduitModel->getAllTypeProduits();
         return $app["twig"]->render('backOff/Produit/addProduit.html.twig',['typeProduits'=>$typeProduits]);
     }
@@ -57,8 +84,8 @@ class ProduitController implements ControllerProviderInterface
             }
             else
             {
-                $this->ProduitModel = new ProduitModel($app);
-                $this->ProduitModel->insertProduit($donnees);
+                $this->produitModel = new ProduitModel($app);
+                $this->produitModel->insertProduit($donnees);
                 return $app->redirect($app["url_generator"]->generate("produit.index"));
             }
 
@@ -68,9 +95,11 @@ class ProduitController implements ControllerProviderInterface
     }
 
     public function deleteProduit(Application $app, $id) {
+        $this->panierModel = new PanierModel($app);
+        $this->produitModel= new ProduitModel($app);
         $this->typeProduitModel = new TypeProduitModel($app);
+
         $typeProduits = $this->typeProduitModel->getAllTypeProduits();
-        $this->produitModel = new ProduitModel($app);
         $donnees = $this->produitModel->getProduit($id);
         return $app["twig"]->render('backOff/Produit/deleteProduit.html.twig',['typeProduits'=>$typeProduits,'donnees'=>$donnees]);
     }
@@ -88,9 +117,11 @@ class ProduitController implements ControllerProviderInterface
 
 
     public function editProduit(Application $app, $id) {
+        $this->panierModel = new PanierModel($app);
+        $this->produitModel= new ProduitModel($app);
         $this->typeProduitModel = new TypeProduitModel($app);
+
         $typeProduits = $this->typeProduitModel->getAllTypeProduits();
-        $this->produitModel = new ProduitModel($app);
         $donnees = $this->produitModel->getProduit($id);
         return $app["twig"]->render('backOff/Produit/editProduit.html.twig',['typeProduits'=>$typeProduits,'donnees'=>$donnees]);
     }
@@ -138,8 +169,8 @@ class ProduitController implements ControllerProviderInterface
             }
             else
             {
-                $this->ProduitModel = new ProduitModel($app);
-                $this->ProduitModel->updateProduit($donnees);
+                $this->produitModel = new ProduitModel($app);
+                $this->produitModel->updateProduit($donnees);
                 return $app->redirect($app["url_generator"]->generate("produit.index"));
             }
         }
@@ -162,6 +193,9 @@ class ProduitController implements ControllerProviderInterface
 
         $controllers->get('/edit/{id}', 'App\Controller\produitController::editProduit')->bind('produit.editProduit')->assert('id', '\d+');
         $controllers->put('/edit', 'App\Controller\produitController::validFormEditProduit')->bind('produit.validFormEditProduit');
+
+        // $controllers->get('/showCat', 'App\Controller\produitController::showProduitsCategory')->bind('produit.showProduitsCategory');
+        $controllers->get('/showCat', 'App\Controller\produitController::validFormSelectCategory')->bind('produit.validFormSelectCategory');
 
         return $controllers;
     }
