@@ -34,13 +34,16 @@ class PanierController implements ControllerProviderInterface
         if (isset($_POST['id']) && isset($_POST['quantite'])) {
             $id = htmlspecialchars($_POST['id']);
             $quantite = htmlspecialchars($_POST['quantite']);
+            if (is_numeric($quantite)) $quantite = intval($quantite);
 
             $this->produitModel = new ProduitModel($app);
 
             $produit = $this->produitModel->getProduit($id);
             $produit['quantite'] = $quantite;
+            $nbdispo = $produit['dispo']+$produit['stock'];
 
             if (!preg_match("/^[1-9][0-9]{0,}$/", $produit['quantite'])) $erreurs['quantiteAdd']='Veuillez saisir un chiffre correct';
+            if ($quantite>$nbdispo) $erreurs['tooManyItems'] = 'Erreur : vous avez saisi une quantité supérieure à la quantité disponible';
 
             if(!empty($erreurs)) {
                 return $this->erreurForm($app, $erreurs);

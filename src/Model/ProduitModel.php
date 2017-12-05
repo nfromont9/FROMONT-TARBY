@@ -16,7 +16,7 @@ class ProduitModel {
     public function getAllProduits() {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('p.id', 't.libelle', 'p.nom', 'p.prix', 'p.photo')
+            ->select('p.id', 't.libelle', 'p.nom', 'p.prix', 'p.photo', 'p.dispo', 'p.stock')
             ->from('produits', 'p')
             ->innerJoin('p', 'typeProduits', 't', 'p.typeProduit_id=t.id')
             ->addOrderBy('p.nom', 'ASC');
@@ -46,7 +46,7 @@ class ProduitModel {
     function getProduit($id) {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('id', 'typeProduit_id', 'nom', 'prix', 'photo')
+            ->select('id', 'typeProduit_id', 'nom', 'prix', 'photo', 'dispo', 'stock')
             ->from('produits')
             ->where('id= :id')
             ->setParameter('id', $id);

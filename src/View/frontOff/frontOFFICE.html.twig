@@ -12,11 +12,15 @@
                 <br>
                 <small class="error">{{erreurs.quantiteAdd}}</small>
             {% endif %}
+            {% if erreurs.tooManyItems is defined %}
+                <br>
+                <small class="error">{{erreurs.tooManyItems}}</small>
+            {% endif %}
             {% if produits is defined %}
                 <table>
                     <caption>Produits</caption>
                     <thead>
-                    <tr><th>nom</th><th>id</th><th>type</th><th>prix</th><th>nom photo</th><th>photo</th><th>achat</th></tr>
+                    <tr><th>nom</th><th>id</th><th>type</th><th>prix</th><th>photo</th><th>quantité disponible</th><th>quantité en stock</th><th>achat</th></tr>
                     </thead>
                     <tbody>
                     {% for produit in produits if produits is not empty %}
@@ -25,8 +29,9 @@
                             <td>{{produit.id}}</td>
                             <td>{{produit.libelle}}</td>
                             <td>{{produit.prix}}</td>
-                            <td>{{produit.photo}}</td>
                             <td><img style="width:60px;height:50px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" ></td>
+                            <td>{{produit.dispo}}</td>
+                            <td>{{produit.stock}}</td>
                             <td>
                                 <form method="post" action="{{ path("panier.addProduit") }}">
                                     <label>Quantité :
