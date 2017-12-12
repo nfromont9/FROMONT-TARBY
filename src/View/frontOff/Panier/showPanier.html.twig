@@ -5,30 +5,52 @@
             <a href="{{ path('produit.addProduit') }}"> Ajouter un produit </a>
         {% endif %}
 
-        <table>
-            <caption>Panier :</caption>
-            <thead>
-            <tr><th>id</th><th>quantite</th><th>prix</th><th>date d'ajout</th><th>user</th><th>produit</th><th>commande</th>
-                {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-                    <th>opération</th>
+        <div class="row" style="float: right;width: 50%;">
+            <div class="small-5 large-5 columns">
+                <div>le panier + liens</div>
+                {% if erreurs.quantiteDel is defined %}
+                    <br>
+                    <small class="error">{{erreurs.quantiteDel}}</small>
                 {% endif %}
-            </tr>
-            </thead>
-            <tbody>
-            {% for produit in data if data is not empty %}
-
-                <tr>
-                    <td>{{produit.id}}</td><td>{{produit.quantite}}</td><td>{{produit.prix}}</td><td>{{produit.dateAjoutPanier}}</td>
-                    <td>{{produit.user_id}}</td><td>{{produit.produit_id}}</td><td>{{produit.commande_id}}</td>
-                    {% if   app.session.get('roles') is defined and  app.session.get('roles') == 'ROLE_ADMIN' %}
+                {% if panier is defined %}
+                    <table>
+                        <caption>Panier :</caption>
+                        <thead>
+                        <tr><th>id produit</th><th>quantite</th><th>prix</th><th>date d'ajout</th><th>nom produit</th><th>photo</th><th>prix total</th><th>Supprimer quantité</th></tr>
+                        </thead>
+                        <tbody>
+                        {% for produit in panier if panier is not empty %}
+                            <tr>
+                                <td>{{produit.id}}</td>
+                                <td>{{produit.quantite}}</td>
+                                <td>{{produit.prix}}</td>
+                                <td>{{produit.dateAjoutPanier}}</td>
+                                <td>{{produit.nom}}</td>
+                                <td><img style="width:40px;height:40px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.nom}}" ></td>
+                                <td>{{ produit.prix * produit.quantite }}</td>
+                                <td>
+                                    <form method="post" action="{{ path("panier.deleteProduit") }}">
+                                        <label>Quantité :
+                                            <input name="quantite"  type="text"  size="18" value={{produit.quantite}} />
+                                        </label>
+                                        <input name="id"  type="hidden" value="{{produit.id}}" />
+                                        <input type="hidden" id="_method" name="_method" value="GET" />
+                                        <input type="submit" name="Supprimer du Panier" value="Supprimer du Panier" />
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         <td>
-                            <a href="{{ path('produit.editProduit', {id: produit.id}) }}">modifier</a>
-                            <a href="{{ path('produit.deleteProduit', {id: produit.id}) }}">supprimer</a>
+                            <form method="post" action="{{ path("panier.valider") }}">
+                                <input type="submit" name="Valider le Panier" value="Valider le Panier" />
+                            </form>
                         </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-            <tbody>
-        </table>
+                        <tbody>
+                    </table>
+                {% else %}
+                    <div>Le panier est vide</div>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}

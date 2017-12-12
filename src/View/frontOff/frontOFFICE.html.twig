@@ -5,122 +5,122 @@
 	<h1> Projet 2 web : site de vente Espace client </h1>
 
     <div style="width: 100%;overflow: auto;">
-	<div class="row" style="float: left;width: 50%;">
-		<div class="small-7 large-7 columns" >
-			<div>Liste des produits</div>
-            {% if erreurs.quantiteAdd is defined %}
-                <br>
-                <small class="error">{{erreurs.quantiteAdd}}</small>
-            {% endif %}
-            {% if erreurs.tooManyItems is defined %}
-                <br>
-                <small class="error">{{erreurs.tooManyItems}}</small>
-            {% endif %}
+        <div class="row" style="float: left;width: 50%;">
+            <div class="small-7 large-7 columns" >
+                <div>Liste des produits</div>
+                {% if erreurs.quantiteAdd is defined %}
+                    <br>
+                    <small class="error">{{erreurs.quantiteAdd}}</small>
+                {% endif %}
+                {% if erreurs.tooManyItems is defined %}
+                    <br>
+                    <small class="error">{{erreurs.tooManyItems}}</small>
+                {% endif %}
 
-            {% if type_produits is defined %}
-                <form method="post" action="{{ path("produit.validFormSelectCategory") }}">
-                    <label for="pays">Dans quel pays habitez-vous ?</label><br />
-                    <select name="id">
-                        <option value="-1">Toutes les catégories</option>
-                        {% for type_produit in type_produits if type_produits is not empty %}
-                            <option value="{{ type_produit.id }}"
-                            {% if selected is defined %}
-                                {% if selected==type_produit.id  %}
-                                    selected
-                                {% endif %}
-                            {% endif %}
-                            >{{ type_produit.libelle }}</option>
+                {% if type_produits is defined %}
+                    <form method="post" action="{{ path("produit.validFormSelectCategory") }}">
+                        <label for="pays">Catégorie d'armes à afficher :</label><br />
+                        <select name="id">
+                            <option value="-1">Toutes les catégories</option>
+                            {% for type_produit in type_produits if type_produits is not empty %}
+                                <option value="{{ type_produit.id }}"
+                                    {% if selected is defined %}
+                                        {% if selected==type_produit.id  %}
+                                            selected
+                                        {% endif %}
+                                    {% endif %}
+                                    >{{ type_produit.libelle }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" id="_method" name="_method" value="GET" />
+                        <input type="submit" name="selectByCat" value="Sélectionner" />
+                    </form>
+                {% endif %}
+
+                {% if produits is defined %}
+                    <table>
+                        <caption>Produits</caption>
+                        <thead>
+                        <tr><th>nom</th><th>id</th><th>type</th><th>prix</th><th>photo</th><th>quantité disponible</th><th>quantité en stock</th><th>achat</th></tr>
+                        </thead>
+                        <tbody>
+                        {% for produit in produits if produits is not empty %}
+                            <tr>
+                                <td>{{produit.nom}}</td>
+                                <td>{{produit.id}}</td>
+                                <td>{{produit.libelle}}</td>
+                                <td>{{produit.prix}}</td>
+                                <td><img style="width:60px;height:50px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" ></td>
+                                <td>{{produit.dispo}}</td>
+                                <td>{{produit.stock}}</td>
+                                <td>
+                                    <form method="post" action="{{ path("panier.addProduit") }}">
+                                        <label>Quantité :
+                                            <input name="quantite"  type="text"  size="18" value="1" />
+                                        </label>
+
+                                        <input name="id"  type="hidden" value="{{produit.id}}" />
+                                        <input type="hidden" id="_method" name="_method" value="GET" />
+                                        <input type="submit" name="Ajouter au Panier" value="Ajouter au Panier" />
+                                    </form>
+                                </td>
+                            </tr>
                         {% endfor %}
-                    </select>
-                    <input type="hidden" id="_method" name="_method" value="GET" />
-                    <input type="submit" name="selectByCat" value="Sélectionner" />
-                </form>
-
-            {% endif %}
-
-            {% if produits is defined %}
+                        <tbody>
+                    </table>
+                {% else %}
+                    <div>Pas de produits</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row" style="float: right;width: 50%;">
+            <div class="small-5 large-5 columns">
+                <div>le panier + liens</div>
+                {% if erreurs.quantiteDel is defined %}
+                    <br>
+                    <small class="error">{{erreurs.quantiteDel}}</small>
+                {% endif %}
+                {% if panier is defined %}
                 <table>
-                    <caption>Produits</caption>
+                    <caption>Panier :</caption>
                     <thead>
-                    <tr><th>nom</th><th>id</th><th>type</th><th>prix</th><th>photo</th><th>quantité disponible</th><th>quantité en stock</th><th>achat</th></tr>
+                        <tr><th>id produit</th><th>quantite</th><th>prix</th><th>date d'ajout</th><th>nom produit</th><th>photo</th><th>prix total</th><th>Supprimer quantité</th></tr>
                     </thead>
                     <tbody>
-                    {% for produit in produits if produits is not empty %}
+                    {% for produit in panier if panier is not empty %}
                         <tr>
-                            <td>{{produit.nom}}</td>
                             <td>{{produit.id}}</td>
-                            <td>{{produit.libelle}}</td>
+                            <td>{{produit.quantite}}</td>
                             <td>{{produit.prix}}</td>
-                            <td><img style="width:60px;height:50px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" ></td>
-                            <td>{{produit.dispo}}</td>
-                            <td>{{produit.stock}}</td>
+                            <td>{{produit.dateAjoutPanier}}</td>
+                            <td>{{produit.nom}}</td>
+                            <td><img style="width:40px;height:40px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.nom}}" ></td>
+                            <td>{{ produit.prix * produit.quantite }}</td>
                             <td>
-                                <form method="post" action="{{ path("panier.addProduit") }}">
+                                <form method="post" action="{{ path("panier.deleteProduit") }}">
                                     <label>Quantité :
-                                        <input name="quantite"  type="text"  size="18" value="1" />
+                                        <input name="quantite"  type="text"  size="18" value={{produit.quantite}} />
                                     </label>
-
                                     <input name="id"  type="hidden" value="{{produit.id}}" />
                                     <input type="hidden" id="_method" name="_method" value="GET" />
-                                    <input type="submit" name="Ajouter au Panier" value="Ajouter au Panier" />
+                                    <input type="submit" name="Supprimer du Panier" value="Supprimer du Panier" />
                                 </form>
                             </td>
                         </tr>
                     {% endfor %}
+                    <td>
+                        <form method="post" action="{{ path("panier.valider") }}">
+                            <input type="submit" name="Valider le Panier" value="Valider le Panier" />
+                        </form>
+                    </td>
                     <tbody>
                 </table>
-            {% else %}
-                <div>Pas de produits</div>
-            {% endif %}
-		</div>
-    </div>
-    <div class="row" style="float: right;width: 50%;">
-		<div class="small-5 large-5 columns">
-			<div>le panier + liens</div>
-            {% if erreurs.quantiteDel is defined %}
-                <br>
-                <small class="error">{{erreurs.quantiteDel}}</small>
-            {% endif %}
-            {% if panier is defined %}
-            <table>
-                <caption>Panier :</caption>
-                <thead>
-                    <tr><th>id produit</th><th>quantite</th><th>prix</th><th>date d'ajout</th><th>nom produit</th><th>photo</th><th>prix total</th><th>Supprimer quantité</th></tr>
-                </thead>
-                <tbody>
-                {% for produit in panier if panier is not empty %}
-                    <tr>
-                        <td>{{produit.id}}</td>
-                        <td>{{produit.quantite}}</td>
-                        <td>{{produit.prix}}</td>
-                        <td>{{produit.dateAjoutPanier}}</td>
-                        <td>{{produit.nom}}</td>
-                        <td><img style="width:40px;height:40px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.nom}}" ></td>
-                        <td>{{ produit.prix * produit.quantite }}</td>
-                        <td>
-                            <form method="post" action="{{ path("panier.deleteProduit") }}">
-                                <label>Quantité :
-                                    <input name="quantite"  type="text"  size="18" value={{produit.quantite}} />
-                                </label>
-                                <input name="id"  type="hidden" value="{{produit.id}}" />
-                                <input type="hidden" id="_method" name="_method" value="GET" />
-                                <input type="submit" name="Supprimer du Panier" value="Supprimer du Panier" />
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-                <td>
-                    <form method="post" action="{{ path("panier.valider") }}">
-                        <input type="submit" name="Valider le Panier" value="Valider le Panier" />
-                    </form>
-                </td>
-                <tbody>
-            </table>
-            {% else %}
-                <div>Le panier est vide</div>
-            {% endif %}
-		</div>
-	</div>
+                {% else %}
+                    <div>Le panier est vide</div>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
 
