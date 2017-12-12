@@ -1,0 +1,24 @@
+{% extends "layout.html.twig" %}
+{% block contenu %}
+    <div class="row">
+        <table>
+            <caption>Commandes :</caption>
+            <thead>
+            <tr><th>id</th><th>user_id</th><th>prix</th><th>date_achat</th><th>etat_id</th>
+                {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+                    <th>opération</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for produit in data if data is not empty %}
+
+                <tr>
+                    <td>{{produit.id}}</td><td>{{produit.user_id}}</td><td>{{produit.prix}}</td>
+                    <td>{{produit.date_achat}}</td><td>{{produit.etat_id}}</td>
+                </tr>
+            {% endfor %}
+            <tbody>
+        </table>
+    </div>
+{% endblock %}

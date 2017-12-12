@@ -35,4 +35,13 @@ class CommandeModel {
         $conn->commit();
     }
 
+    public function getAllCommandes() {
+    $queryBuilder = new QueryBuilder($this->db);
+    $queryBuilder
+        ->select('id', 'user_id', 'prix', 'date_achat', 'etat_id')
+        ->from('commandes')
+        ->addOrderBy('id', 'ASC');
+    return $queryBuilder->execute()->fetchAll();
+}
+
 }
