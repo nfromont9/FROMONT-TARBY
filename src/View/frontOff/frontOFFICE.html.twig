@@ -103,7 +103,7 @@
                     <br>
                     <small class="error">{{erreurs.quantiteDel}}</small>
                 {% endif %}
-                {% if panier is defined %}
+                {% if panier is defined and panier is not empty %}
                 <table>
                     <caption>Panier :</caption>
                     <thead>
@@ -131,11 +131,13 @@
                             </td>
                         </tr>
                     {% endfor %}
-                    <td>
-                        <form method="post" action="{{ path("panier.valider") }}">
-                            <input type="submit" name="Valider le Panier" value="Valider le Panier" />
-                        </form>
-                    </td>
+                        {% if panier is not empty %}
+                            <td>
+                                <form method="post" action="{{ path("panier.valider") }}">
+                                    <input type="submit" name="Valider le Panier" value="Valider le Panier" />
+                                </form>
+                            </td>
+                        {% endif %}
                     <tbody>
                 </table>
                 {% else %}
