@@ -23,6 +23,11 @@ class IndexController implements ControllerProviderInterface
         $panier = $this->panierModel->getPanier();
         $typeProduits = $this->typeProduitModel->getAllTypeProduits();
 
+        $tpi = $app['session']->get('type_produit_id');
+        if (!isset($tpi) || is_null($tpi) || !is_numeric($tpi)) {
+            $app['session']->set('type_produit_id', -1);
+        }
+
         if ($app['session']->get('roles') == 'ROLE_CLIENT')
              return $app["twig"]->render("frontOff/frontOFFICE.html.twig", ['produits'=>$produits, 'panier'=>$panier, 'type_produits'=>$typeProduits]);
             //return $app->redirect($app["url_generator"]->generate("Panier.index", ['produits'=>$produits, 'panier'=>$panier, 'type_produits'=>$typeProduits]));

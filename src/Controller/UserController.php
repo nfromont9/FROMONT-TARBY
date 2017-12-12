@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Model\CommandeModel;
 use App\Model\UserModel;
 
 use Silex\Application;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;   // pour utiliser request
 class UserController implements ControllerProviderInterface {
 
 	private $userModel;
+	private $CommandeModel;
 
 	public function index(Application $app) {
 		return $this->connexionUser($app);
@@ -53,12 +55,22 @@ class UserController implements ControllerProviderInterface {
 		return $app->redirect($app["url_generator"]->generate("accueil"));
 	}
 
+	public function showCommandes(Application $app) {
+	    $this->CommandeModel = new CommandeModel($app);
+	    $uid = $app['session']->get('user_id');
+
+	    $commandes = $this->CommandeModel->getAllCommandesByUID($uid);
+
+        return $app["twig"]->render("frontOff/Panier/showCommandes.html.twig",['commandes'=>$commandes]);
+    }
+
 	public function connect(Application $app) {
 		$controllers = $app['controllers_factory'];
 		$controllers->match('/', 'App\Controller\UserController::index')->bind('user.index');
 		$controllers->get('/login', 'App\Controller\UserController::connexionUser')->bind('user.login');
 		$controllers->post('/login', 'App\Controller\UserController::validFormConnexionUser')->bind('user.validFormlogin');
 		$controllers->get('/logout', 'App\Controller\UserController::deconnexionSession')->bind('user.logout');
+        $controllers->get('/showCmds', 'App\Controller\UserController::showCommandes')->bind('user.showCommandes');
 		return $controllers;
 	}
 }

@@ -42,26 +42,6 @@ class CommandeModel {
         ->from('commandes')
         ->addOrderBy('id', 'ASC');
     return $queryBuilder->execute()->fetchAll();
-    }
-
-    public function validCommande($id) {
-        $queryBuilder = new QueryBuilder($this->db);
-        $queryBuilder
-            ->update('commandes')
-            ->set('etat_id', '?')
-            ->where('id= ?')
-            ->setParameter(0, $id);
-        return $queryBuilder->execute();
-    }
-
-    public function deleteCommande($id) {
-        $queryBuilder = new QueryBuilder($this->db);
-        $queryBuilder
-            ->delete('commandes')
-            ->where('id = :id')
-            ->setParameter('id',(int)$id)
-        ;
-        return $queryBuilder->execute();
-    }
+}
 
 }

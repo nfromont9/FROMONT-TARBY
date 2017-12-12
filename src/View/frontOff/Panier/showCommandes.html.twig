@@ -1,0 +1,33 @@
+{% extends "layout.html.twig" %}
+
+{% block contenu %}
+
+    <h1> Mes commandes </h1>
+
+    <div style="width: 100%;overflow: auto;">
+        <div class="row" style="float: top;width: 70%;">
+            <div class="small-5 large-7 columns">
+                {% if commandes is defined %}
+                    <table>
+                        <caption>Commandes :</caption>
+                        <thead>
+                            <tr><th>ID Commande</th><th>Prix</th><th>Date d'achat</th><th>Etat</th></tr>
+                        </thead>
+                        <tbody>
+                        {% for commande in commandes if commandes is not empty %}
+                            <tr>
+                                <td>{{commande.id}}</td>
+                                <td>{{commande.prix}}</td>
+                                <td>{{commande.date_achat}}</td>
+                                <td>{{commande.libelle}}</td>
+                            </tr>
+                        {% endfor %}
+                        <tbody>
+                    </table>
+                {% else %}
+                    <div>Vous n'avez pas de commandes</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

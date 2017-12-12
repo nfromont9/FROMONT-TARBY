@@ -48,10 +48,12 @@ class ProduitController implements ControllerProviderInterface
 
         if (isset($_POST['id'])) $id = htmlspecialchars($_POST['id']);
 
-        if ($id==-1) $produits = $this->produitModel->getAllProduits();
-        else $produits = $this->produitModel->getProduitsByCategory($id);
+        $app['session']->set('type_produit_id', $id);
 
-        return $app["twig"]->render("frontOff/frontOFFICE.html.twig", ['produits'=>$produits, 'panier'=>$panier, 'type_produits'=>$typeProduits, 'selected'=>$id]);
+        $produits = $this->produitModel->getAllProduits();
+
+        return $app["twig"]->render("frontOff/frontOFFICE.html.twig",
+            ['produits'=>$produits, 'panier'=>$panier, 'type_produits'=>$typeProduits]);
     }
 
     public function addProduit(Application $app) {
