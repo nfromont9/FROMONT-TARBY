@@ -19,7 +19,7 @@
                 {% if type_produits is defined %}
                     <form method="post" action="{{ path("produit.validFormSelectCategory") }}">
                         <label for="pays">Catégorie d'armes à afficher :</label><br />
-                        <select name="id">
+                        <select name="id" id="type_produit_category" title="Catégories">
                             <option value="-1">Toutes les catégories</option>
                             {% for type_produit in type_produits if type_produits is not empty %}
                                 <option value="{{ type_produit.id }}"
