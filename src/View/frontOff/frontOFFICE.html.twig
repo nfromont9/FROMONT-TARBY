@@ -7,7 +7,6 @@
     <div style="width: 100%;overflow: auto;">
         <div class="row" style="float: left;width: 50%;">
             <div class="small-7 large-7 columns" >
-                <div>Liste des produits</div>
                 {% if erreurs.quantiteAdd is defined %}
                     <br>
                     <small class="error">{{erreurs.quantiteAdd}}</small>
@@ -76,7 +75,6 @@
         </div>
         <div class="row" style="float: right;width: 50%;">
             <div class="small-5 large-5 columns">
-                <div>le panier + liens</div>
                 {% if erreurs.quantiteDel is defined %}
                     <br>
                     <small class="error">{{erreurs.quantiteDel}}</small>
