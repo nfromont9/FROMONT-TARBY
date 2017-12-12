@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Model\CommandeModel;
 use App\Model\UserModel;
 
 use Silex\Application;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;   // pour utiliser request
 class UserController implements ControllerProviderInterface {
 
 	private $userModel;
+	private $CommandeModel;
 
 	public function index(Application $app) {
 		return $this->connexionUser($app);
@@ -32,16 +34,13 @@ class UserController implements ControllerProviderInterface {
 
 		$data=$this->userModel->verif_login_mdp_Utilisateur($donnees['login'],$donnees['password']);
 
-		if($data != NULL)
-		{
+		if($data != NULL) {
 			$app['session']->set('roles', $data['roles']);  //dans twig {{ app.session.get('roles') }}
 			$app['session']->set('username', $data['username']);
 			$app['session']->set('logged', 1);
 			$app['session']->set('user_id', $data['id']);
 			return $app->redirect($app["url_generator"]->generate("accueil"));
-		}
-		else
-		{
+		} else {
 			$app['session']->set('erreur','mot de passe ou login incorrect');
 			return $app["twig"]->render('login.html.twig');
 		}

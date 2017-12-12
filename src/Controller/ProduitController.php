@@ -52,9 +52,6 @@ class ProduitController implements ControllerProviderInterface
 
         $produits = $this->produitModel->getAllProduits();
 
-        /*if ($id==-1) $produits = $this->produitModel->getAllProduits();
-        else $produits = $this->produitModel->getProduitsByCategory($id);*/
-
         return $app["twig"]->render("frontOff/frontOFFICE.html.twig",
             ['produits'=>$produits, 'panier'=>$panier, 'type_produits'=>$typeProduits]);
     }

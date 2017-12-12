@@ -44,8 +44,6 @@
                         </thead>
                         <tbody>
                         {% for produit in produits if produits is not empty %}
-
-
                             {% if app.session.get('type_produit_id') is defined and app.session.get('type_produit_id')!=-1 %}
                                 {% if produit.typeProduit_id==app.session.get('type_produit_id') %}
                                     <tr>
