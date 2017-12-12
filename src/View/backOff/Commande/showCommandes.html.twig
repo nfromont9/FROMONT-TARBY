@@ -4,7 +4,7 @@
         <table>
             <caption>Commandes :</caption>
             <thead>
-            <tr><th>id</th><th>user_id</th><th>prix</th><th>date_achat</th><th>etat_id</th>
+            <tr><th>id</th><th>user_id</th><th>prix</th><th>date_achat</th><th>etat_id</th><th>Actions</th>
                 {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
                     <th>opération</th>
                 {% endif %}
@@ -16,6 +16,11 @@
                 <tr>
                     <td>{{produit.id}}</td><td>{{produit.user_id}}</td><td>{{produit.prix}}</td>
                     <td>{{produit.date_achat}}</td><td>{{produit.etat_id}}</td>
+                    <td>
+                        <form method="post" action="{{ path("commande.validCommande") }}">
+                            <input type="submit" name="Valider la commande" value="Valider la commande" />
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
             <tbody>
