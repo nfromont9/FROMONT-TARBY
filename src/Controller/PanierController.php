@@ -111,6 +111,7 @@ class PanierController implements ControllerProviderInterface
         $uid = $app['session']->get('user_id');
 
         $this->commandeModel->createCommande($uid);
+        $this->panierModel->viderPanier();
         return $app->redirect($app["url_generator"]->generate("accueil"));
     }
 

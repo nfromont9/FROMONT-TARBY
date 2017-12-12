@@ -98,4 +98,10 @@ class PanierModel {
             ->from('paniers');
         return $queryBuilder->execute()->fetch();
     }
+
+    public function viderPanier(){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->delete('paniers');
+        return $queryBuilder->execute();
+    }
 }
