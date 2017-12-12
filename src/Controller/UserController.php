@@ -34,13 +34,16 @@ class UserController implements ControllerProviderInterface {
 
 		$data=$this->userModel->verif_login_mdp_Utilisateur($donnees['login'],$donnees['password']);
 
-		if($data != NULL) {
+		if($data != NULL)
+		{
 			$app['session']->set('roles', $data['roles']);  //dans twig {{ app.session.get('roles') }}
 			$app['session']->set('username', $data['username']);
 			$app['session']->set('logged', 1);
 			$app['session']->set('user_id', $data['id']);
 			return $app->redirect($app["url_generator"]->generate("accueil"));
-		} else {
+		}
+		else
+		{
 			$app['session']->set('erreur','mot de passe ou login incorrect');
 			return $app["twig"]->render('login.html.twig');
 		}
@@ -52,12 +55,22 @@ class UserController implements ControllerProviderInterface {
 		return $app->redirect($app["url_generator"]->generate("accueil"));
 	}
 
+	public function showCommandes(Application $app) {
+	    $this->CommandeModel = new CommandeModel($app);
+	    $uid = $app['session']->get('user_id');
+
+	    $commandes = $this->CommandeModel->getAllCommandesByUID($uid);
+
+        return $app["twig"]->render("frontOff/Panier/showCommandes.html.twig",['commandes'=>$commandes]);
+    }
+
 	public function connect(Application $app) {
 		$controllers = $app['controllers_factory'];
 		$controllers->match('/', 'App\Controller\UserController::index')->bind('user.index');
 		$controllers->get('/login', 'App\Controller\UserController::connexionUser')->bind('user.login');
 		$controllers->post('/login', 'App\Controller\UserController::validFormConnexionUser')->bind('user.validFormlogin');
 		$controllers->get('/logout', 'App\Controller\UserController::deconnexionSession')->bind('user.logout');
+        $controllers->get('/showCmds', 'App\Controller\UserController::showCommandes')->bind('user.showCommandes');
 		return $controllers;
 	}
 }

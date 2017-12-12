@@ -36,12 +36,25 @@ class CommandeModel {
     }
 
     public function getAllCommandes() {
-    $queryBuilder = new QueryBuilder($this->db);
-    $queryBuilder
-        ->select('id', 'user_id', 'prix', 'date_achat', 'etat_id')
-        ->from('commandes')
-        ->addOrderBy('id', 'ASC');
-    return $queryBuilder->execute()->fetchAll();
-}
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('id', 'user_id', 'prix', 'date_achat', 'etat_id')
+            ->from('commandes')
+            ->addOrderBy('id', 'ASC');
+        return $queryBuilder->execute()->fetchAll();
+    }
+
+    public function getAllCommandesByUID($uid) {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('c.id', 'c.user_id', 'c.prix', 'c.date_achat', 'c.etat_id', 'e.libelle')
+            ->from('commandes', 'c')
+            ->innerJoin('c', 'etats', 'e', 'c.etat_id=e.id')
+            ->where('user_id = :uid')
+            ->setParameter('uid',$uid)
+            ->addOrderBy('date_achat', 'ASC');
+        return $queryBuilder->execute()->fetchAll();
+    }
+
 
 }
