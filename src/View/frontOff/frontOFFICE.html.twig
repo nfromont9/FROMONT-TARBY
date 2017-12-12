@@ -24,8 +24,8 @@
                             <option value="-1">Toutes les catégories</option>
                             {% for type_produit in type_produits if type_produits is not empty %}
                                 <option value="{{ type_produit.id }}"
-                                    {% if selected is defined %}
-                                        {% if selected==type_produit.id  %}
+                                    {% if app.session.get('type_produit_id') is defined %}
+                                        {% if app.session.get('type_produit_id')==type_produit.id  %}
                                             selected
                                         {% endif %}
                                     {% endif %}
@@ -37,7 +37,6 @@
                         <input type="submit" name="selectByCat" value="Sélectionner" />
                     </form>
                 {% endif %}
-
                 {% if produits is defined %}
                     <table>
                         <caption>Produits</caption>
@@ -46,26 +45,53 @@
                         </thead>
                         <tbody>
                         {% for produit in produits if produits is not empty %}
-                            <tr>
-                                <td>{{produit.nom}}</td>
-                                <td>{{produit.id}}</td>
-                                <td>{{produit.libelle}}</td>
-                                <td>{{produit.prix}}</td>
-                                <td><img style="width:60px;height:50px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" ></td>
-                                <td>{{produit.dispo}}</td>
-                                <td>{{produit.stock}}</td>
-                                <td>
-                                    <form method="post" action="{{ path("panier.addProduit") }}">
-                                        <label>Quantité :
-                                            <input name="quantite"  type="text"  size="18" value="1" />
-                                        </label>
 
-                                        <input name="id"  type="hidden" value="{{produit.id}}" />
-                                        <input type="hidden" id="_method" name="_method" value="GET" />
-                                        <input type="submit" name="Ajouter au Panier" value="Ajouter au Panier" />
-                                    </form>
-                                </td>
-                            </tr>
+
+                            {% if app.session.get('type_produit_id') is defined and app.session.get('type_produit_id')!=-1 %}
+                                {% if produit.typeProduit_id==app.session.get('type_produit_id') %}
+                                    <tr>
+                                        <td>{{produit.nom}}</td>
+                                        <td>{{produit.id}}</td>
+                                        <td>{{produit.libelle}}</td>
+                                        <td>{{produit.prix}}</td>
+                                        <td><img style="width:60px;height:50px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" ></td>
+                                        <td>{{produit.dispo}}</td>
+                                        <td>{{produit.stock}}</td>
+                                        <td>
+                                            <form method="post" action="{{ path("panier.addProduit") }}">
+                                                <label>Quantité :
+                                                    <input name="quantite"  type="text"  size="18" value="1" />
+                                                </label>
+
+                                                <input name="id"  type="hidden" value="{{produit.id}}" />
+                                                <input type="hidden" id="_method" name="_method" value="GET" />
+                                                <input type="submit" name="Ajouter au Panier" value="Ajouter au Panier" />
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% else %}
+                                <tr>
+                                    <td>{{produit.nom}}</td>
+                                    <td>{{produit.id}}</td>
+                                    <td>{{produit.libelle}}</td>
+                                    <td>{{produit.prix}}</td>
+                                    <td><img style="width:60px;height:50px" src="{{asset('images/')}}{{produit.photo}}" alt="image de {{produit.libelle}}" ></td>
+                                    <td>{{produit.dispo}}</td>
+                                    <td>{{produit.stock}}</td>
+                                    <td>
+                                        <form method="post" action="{{ path("panier.addProduit") }}">
+                                            <label>Quantité :
+                                                <input name="quantite"  type="text"  size="18" value="1" />
+                                            </label>
+
+                                            <input name="id"  type="hidden" value="{{produit.id}}" />
+                                            <input type="hidden" id="_method" name="_method" value="GET" />
+                                            <input type="submit" name="Ajouter au Panier" value="Ajouter au Panier" />
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                         <tbody>
                     </table>
