@@ -42,6 +42,6 @@ class CommandeModel {
         ->from('commandes')
         ->addOrderBy('id', 'ASC');
     return $queryBuilder->execute()->fetchAll();
-}
+    }
 
 }

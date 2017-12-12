@@ -17,7 +17,6 @@ class IndexController implements ControllerProviderInterface
         $this->produitModel= new ProduitModel($app);
         $this->typeProduitModel = new TypeProduitModel($app);
 
-        // $app['session']->get('category')=='tous';
 
         $produits = $this->produitModel->getAllProduits();
         $panier = $this->panierModel->getPanier();
