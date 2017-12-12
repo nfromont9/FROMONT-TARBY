@@ -15,10 +15,14 @@ class CommandeModel {
         $this->db = $app['db'];
     }
 
-    public function createCommande($user_id,$prixTotal){
+    public function createCommande($user_id){
         $conn=$this->db;
 
-        $prix = $prixTotal;
+        $conn->beginTransaction();
+        $requestSQL = $conn->prepare('select sum(prix*quantite) as prix from paniers WHERE user_id = :idUser');
+        $requestSQL->execute(['idUser'=>$user_id]);
+        $prix = $requestSQL->fetch()['prix'];
+        $conn->commit();
 
         $conn->beginTransaction();
         $requestSQL = $conn->prepare('insert into commandes(user_id,prix,etat_id)

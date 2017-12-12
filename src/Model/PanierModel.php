@@ -94,7 +94,7 @@ class PanierModel {
 
     public function getPrixPanier(){
         $queryBuilder = new QueryBuilder($this->db);
-        $queryBuilder->select('sum(prix)')
+        $queryBuilder->select('sum(prix) as prixTotal')
             ->from('paniers');
         return $queryBuilder->execute()->fetch();
     }

@@ -109,10 +109,8 @@ class PanierController implements ControllerProviderInterface
         $this->panierModel = new PanierModel($app);
 
         $uid = $app['session']->get('user_id');
-        //Le prix correct
-        $prixTotal = $this->panierModel->getPrixPanier();
 
-        $this->commandeModel->createCommande($uid,$prixTotal);
+        $this->commandeModel->createCommande($uid);
         return $app->redirect($app["url_generator"]->generate("accueil"));
     }
 
